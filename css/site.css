@@ -306,7 +306,9 @@ a:hover {
 .section {
   padding: var(--space-section-padding) 0;
 }
-
+.section.bg-secondary {
+  padding: calc(var(--space-section-padding) * 3) 0;
+}
 .text-center {
   text-align: center;
 }
