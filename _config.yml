@@ -3,6 +3,7 @@ title: Font Proof
 description: Professional font testing for macOS designers and typographers
 baseurl: "/font-proof-marketing" # the subpath of your site, e.g. /blog
 url: "https://jakefleming.github.io" # the base hostname & protocol for your site
+email: jakefleming@gmail.com
 
 # GitHub Pages configuration
 repository: jakefleming/font-proof-marketing

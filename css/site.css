@@ -338,6 +338,9 @@ a:hover {
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
+.btn:hover {
+  color: var(--color-text);
+}
 
 .btn-primary {
   background-color: var(--color-btn-primary-bg);
