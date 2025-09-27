@@ -1,0 +1,120 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="		<div class="hero-visual">
+			<img src="{{ '/assets/product-visuals/overview.png' | relative_url }}" 
+				 alt="Font Proof app interface showing multiple font comparisons" 
+				 class="hero-screenshot">
+		</div><head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{{ '/css/site.css' | relative_url }}">
+	<script src="{{ '/js/site.js' | relative_url }}"></script>
+	<title>Font Proof - Professional Font Testing for macOS</title>
+	<meta name="description" content="The best way to proof and test fonts on macOS. Multi-page editing, zoom controls, and professional typography tools.">
+</head>
+<body>
+	<header>
+		{% include header.html %}
+	</header>
+
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="container">
+			<div class="hero-content">
+				<div class="hero-text">
+					<h1 class="hero-subtitle">
+						Professional font proofing and testing for macOS designers and typographers. 
+						Test multiple fonts simultaneously with advanced editing capabilities.
+					</h1>
+					<div class="hero-cta">
+						<a href="#" class="btn btn-primary btn-large">
+							Download for macOS
+						</a>
+					</div>
+					<div class="download-indicator">
+						Free trial • $100/seat
+					</div>
+				</div>
+			</div>
+			<div class="hero-visual">
+				<img src="/assets/product-visuals/overview.png" 
+					alt="Font Proof app interface showing multiple font comparisons" 
+					class="hero-screenshot">
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section class="section bg-secondary" id="features">
+		<div class="container">
+			
+			<div class="feature-grid">
+				<div class="card feature-item">
+					<div class="feature-icon">📝</div>
+					<h3 class="feature-title">Multi-Page Editing</h3>
+					<p class="feature-description">
+						Edit and compare multiple pages of text simultaneously.
+					</p>
+				</div>
+				
+				<div class="card feature-item">
+					<div class="feature-icon">🔍</div>
+					<h3 class="feature-title">On Canvas Zoom</h3>
+					<p class="feature-description">
+						Zoom controls let you examine font details up close.
+					</p>
+				</div>
+				
+				<div class="card feature-item">
+					<div class="feature-icon">⚡</div>
+					<h3 class="feature-title">Glyphs 3 syncing</h3>
+					<p class="feature-description">
+						Toggle to allow edits to sync immediately, or make changes without affecting the original proof.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Product Visuals Section -->
+	<section class="section">
+		<div class="container">
+			<div class="product-showcase">
+				<div class="showcase-content">
+					<h2 class="showcase-title">
+						Compare fonts across multiple pages and contexts simultaneously. 
+						Edit text in real-time and see how different typefaces perform 
+						across various layouts and content types.
+					</h2>
+				</div>
+				<div class="showcase-visual">
+					<img src="{{ '/assets/product-visuals/multipage-edits.png' | relative_url }}" 
+						 alt="Multi-page editing interface" 
+						 class="showcase-screenshot">
+				</div>
+			</div>
+			
+			<div class="product-showcase reverse">
+				<div class="showcase-content">
+					<h2 class="showcase-title">
+						Examine every detail with powerful zoom and magnification tools. 
+						Perfect for checking kerning, spacing, and fine typography details 
+						at any scale.
+					</h2>
+				</div>
+				<div class="showcase-visual">
+					<img src="{{ '/assets/product-visuals/zoom.png' | relative_url }}" 
+						 alt="Zoom and detail view" 
+						 class="showcase-screenshot">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		{% include footer.html %}
+	</footer>
+</body>
+</html>

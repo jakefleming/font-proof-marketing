@@ -1,0 +1,34 @@
+# Site settings
+title: Font Proof
+description: Professional font testing for macOS designers and typographers
+baseurl: "/font-proof-marketing" # the subpath of your site, e.g. /blog
+url: "https://jakefleming.github.io" # the base hostname & protocol for your site
+
+# GitHub Pages configuration
+repository: jakefleming/font-proof-marketing
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Jekyll plugins (GitHub Pages compatible)
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
+
+# Development settings
+port: 5000
+encoding: utf-8
