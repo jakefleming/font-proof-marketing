@@ -2,11 +2,8 @@
 ---
 
 <!DOCTYPE html>
-<html lang="		<div class="hero-visual">
-			<img src="{{ '/assets/product-visuals/overview.png' | relative_url }}" 
-				 alt="Font Proof app interface showing multiple font comparisons" 
-				 class="hero-screenshot">
-		</div><head>
+<html lang="en">
+<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="{{ '/css/site.css' | relative_url }}">
@@ -38,12 +35,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="hero-visual">
-				<img src="/assets/product-visuals/overview.png" 
-					alt="Font Proof app interface showing multiple font comparisons" 
-					class="hero-screenshot">
-			</div>
 		</div>
+		{% include product-visual.html 
+		   image="/assets/product-visuals/overview.png"
+		   alt="Font Proof app interface showing multiple font comparisons"
+		   background="1"
+		   theme="light" %}
 	</section>
 
 	<!-- Features Section -->
@@ -89,11 +86,11 @@
 						across various layouts and content types.
 					</h2>
 				</div>
-				<div class="showcase-visual">
-					<img src="{{ '/assets/product-visuals/multipage-edits.png' | relative_url }}" 
-						 alt="Multi-page editing interface" 
-						 class="showcase-screenshot">
-				</div>
+				{% include product-visual.html 
+				   image="/assets/product-visuals/multipage-edits.png"
+				   alt="Multi-page editing interface"
+				   background="2"
+				   theme="dark" %}
 			</div>
 			
 			<div class="product-showcase reverse">
@@ -104,10 +101,93 @@
 						at any scale.
 					</h2>
 				</div>
-				<div class="showcase-visual">
-					<img src="{{ '/assets/product-visuals/zoom.png' | relative_url }}" 
-						 alt="Zoom and detail view" 
-						 class="showcase-screenshot">
+				{% include product-visual.html 
+				   image="/assets/product-visuals/zoom.png"
+				   alt="Zoom and detail view"
+				   background="3"
+				   theme="light" %}
+			</div>
+		</div>
+	</section>
+
+	<!-- Pricing Section -->
+	<section class="section bg-secondary" id="pricing">
+		<div class="container">
+			<div class="text-center mb-8">
+				<h2 class="mb-4">Choose Your Plan</h2>
+				<p class="text-secondary">Start with a free trial, then choose the plan that fits your needs</p>
+			</div>
+			
+			<div class="pricing-grid">
+				<!-- Free Trial -->
+				<div class="pricing-card">
+					<div class="pricing-header">
+						<h3 class="pricing-title">Free Trial</h3>
+						<div class="pricing-price">
+							<span class="price-currency">$</span>
+							<span class="price-amount">0</span>
+							<span class="price-period">/ 14 days</span>
+						</div>
+						<p class="pricing-description">Try Font Proof risk-free for two weeks</p>
+					</div>
+					<ul class="pricing-features">
+						<li class="feature-included">Full feature access</li>
+						<li class="feature-included">All font testing tools</li>
+						<li class="feature-included">Multi-page editing</li>
+						<li class="feature-included">Zoom controls</li>
+						<li class="feature-included">No credit card required</li>
+					</ul>
+					<div class="pricing-cta">
+						<a href="#" class="btn btn-secondary btn-large pricing-btn">Start Free Trial</a>
+					</div>
+				</div>
+
+				<!-- Student License -->
+				<div class="pricing-card">
+					<div class="pricing-header">
+						<h3 class="pricing-title">Student</h3>
+						<div class="pricing-price">
+							<span class="price-currency">$</span>
+							<span class="price-amount">20</span>
+							<span class="price-period">/ license</span>
+						</div>
+						<p class="pricing-description">Perfect for students and educational use</p>
+					</div>
+					<ul class="pricing-features">
+						<li class="feature-included">Full feature access</li>
+						<li class="feature-included">All font testing tools</li>
+						<li class="feature-included">Multi-page editing</li>
+						<li class="feature-included">Zoom controls</li>
+						<li class="feature-included">Educational discount</li>
+						<li class="feature-note">Requires student verification</li>
+					</ul>
+					<div class="pricing-cta">
+						<a href="#" class="btn btn-secondary btn-large pricing-btn">Get Student License</a>
+					</div>
+				</div>
+
+				<!-- Professional License -->
+				<div class="pricing-card featured">
+					<div class="pricing-header">
+						<h3 class="pricing-title">Professional</h3>
+						<div class="pricing-price">
+							<span class="price-currency">$</span>
+							<span class="price-amount">100</span>
+							<span class="price-period">/ license</span>
+						</div>
+						<p class="pricing-description">For professional designers and agencies</p>
+					</div>
+					<ul class="pricing-features">
+						<li class="feature-included">Full feature access</li>
+						<li class="feature-included">All font testing tools</li>
+						<li class="feature-included">Multi-page editing</li>
+						<li class="feature-included">Zoom controls</li>
+						<li class="feature-included">Priority support</li>
+						<li class="feature-included">Commercial use license</li>
+					</ul>
+					<div class="pricing-cta">
+						<a href="#" class="btn btn-primary btn-large pricing-btn">Get Professional</a>
+					</div>
 				</div>
 			</div>
 		</div>

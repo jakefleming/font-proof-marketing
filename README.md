@@ -2,7 +2,7 @@
 
 A marketing website for Font Proof - Professional font testing for macOS designers and typographers.
 
-## 🔧 Development
+## Development
 
 To run locally:
 

@@ -1,0 +1,20 @@
+{% comment %}
+Product visual component with background landscape
+Parameters:
+- image: path to the product screenshot (required)
+- background: background image number (1, 2, or 3) (required)
+- alt: alt text for the screenshot (required)
+- theme: "light" or "dark" for background theme (optional, defaults to "light")
+{% endcomment %}
+
+{% assign theme = include.theme | default: "light" %}
+{% assign bg_image = "/assets/landscapes/" | append: theme | append: "-" | append: include.background | append: ".jpg" | relative_url %}
+
+<div class="showcase-visual-container">
+  <div class="showcase-background" style="background-image: url('{{ bg_image }}');"></div>
+  <div class="showcase-visual">
+    <img src="{{ include.image | relative_url }}" 
+         alt="{{ include.alt }}" 
+         class="showcase-screenshot">
+  </div>
+</div>
