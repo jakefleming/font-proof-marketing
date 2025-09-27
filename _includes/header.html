@@ -1,6 +1,9 @@
-<nav class="container">
+<nav class="container container-xl">
   <div class="logo">
-    <a href="{{ '/' | relative_url }}">Font Proof</a>
+    <a href="{{ '/' | relative_url }}" class="logo-link">
+      {% include logo.html size="32px" class="nav-logo" %}
+      <span class="logo-text">Font Proof</span>
+    </a>
   </div>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
@@ -8,7 +11,6 @@
     <li><a href="#resources">Resources</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="#" class="btn btn-secondary btn-small">Sign in</a>
     <a href="#" class="btn btn-primary btn-small">Download</a>
   </div>
 </nav>

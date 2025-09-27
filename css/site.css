@@ -131,7 +131,7 @@
   --space-component-margin-sm: var(--space-4);
   --space-component-margin-md: var(--space-8);
   --space-component-margin-lg: var(--space-12);
-  --space-section-padding: var(--space-16);
+  --space-section-padding: var(--space-4);
   --space-page-margin: var(--space-6);
   
   /* === SIZING === */
@@ -643,9 +643,28 @@ nav {
   color: var(--color-text-primary);
 }
 
-.logo a {
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   color: inherit;
   text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.logo-link:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+.logo-text {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
 .nav-links {
@@ -826,7 +845,7 @@ nav {
 }
 
 .price-amount {
-  font-size: var(--font-size-6xl);
+  font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
@@ -919,13 +938,89 @@ footer {
   background-color: var(--color-bg-secondary);
   border-top: var(--border-width-1) solid var(--color-border-primary);
   padding: var(--space-16) 0 var(--space-8);
-  margin-top: var(--space-32);
 }
 
 .footer-content {
-  text-align: center;
+  text-align: left;
   color: var(--color-text-tertiary);
   font-size: var(--font-size-sm);
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-32);
+  align-items: start;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0; /* Prevents flex item from growing beyond content */
+}
+
+.footer-logo {
+  flex-shrink: 0; /* Prevents logo from shrinking */
+  display: block;
+}
+
+.footer-brand-text {
+  min-width: 0; /* Prevents text from overflowing */
+}
+
+.footer-tagline {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-info p {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.footer-info a {
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-info a:hover {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  margin-top: var(--space-2) !important;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-secondary);
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+}
+
+/* Footer responsive design */
+@media (max-width: 768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  .footer-brand {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .footer-info {
+    text-align: center;
+  }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -1023,6 +1118,14 @@ footer {
     font-size: var(--font-size-lg);
   }
   
+  .logo-text {
+    font-size: var(--font-size-lg);
+  }
+  
+  .nav-logo {
+    height: 28px;
+  }
+  
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
@@ -1098,3 +1201,72 @@ footer {
 
 .bg-primary { background-color: var(--color-bg-primary); }
 .bg-secondary { background-color: var(--color-bg-secondary); }
+
+/* ===== TYPOGRAPHY CONSTRAINTS FOR OPTIMAL READABILITY ===== */
+
+/* Target paragraphs, descriptions, and text content with optimal line length */
+p:not(.hero-subtitle):not(.pricing-description):not(.footer-tagline),
+.showcase-description,
+.feature-description,
+.hero-subtitle,
+.pricing-description,
+blockquote,
+.text-content {
+  max-width: 75ch;
+}
+
+/* Specific targeting for content that tends to be longer */
+p {
+  max-width: 75ch;
+}
+
+/* Hero subtitle gets slightly wider for impact */
+.hero-subtitle {
+  max-width: 80ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Pricing descriptions stay constrained for scanability */
+.pricing-description {
+  max-width: 65ch;
+}
+
+/* Feature descriptions in cards */
+.feature-description {
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Showcase descriptions in product sections */
+.showcase-description {
+  max-width: 70ch;
+}
+
+/* Apply to any text-heavy content containers */
+.text-content,
+.content-block {
+  max-width: 75ch;
+}
+
+/* Center longer text blocks when they're in centered containers */
+.text-center p,
+.text-center .text-content,
+.text-center .showcase-description {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Exception for footer text which should flow naturally */
+footer p {
+  max-width: none;
+}
+
+/* Exception for very short text like buttons, labels, etc. */
+.btn,
+.nav-links,
+.pricing-price,
+.download-indicator {
+  max-width: none;
+}

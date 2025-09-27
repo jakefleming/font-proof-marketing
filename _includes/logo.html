@@ -1,0 +1,16 @@
+{% comment %}
+Logo/Icon component
+Parameters:
+- size: CSS size value (optional, defaults to "24px")
+- class: additional CSS classes (optional)
+- alt: alt text (optional, defaults to "Font Proof")
+{% endcomment %}
+
+{% assign logo_size = include.size | default: "24px" %}
+{% assign logo_class = include.class | default: "" %}
+{% assign logo_alt = include.alt | default: "Font Proof" %}
+
+<img src="{{ '/assets/icon.png' | relative_url }}" 
+     alt="{{ logo_alt }}" 
+     class="logo-icon {{ logo_class }}"
+     style="height: {{ logo_size }}; width: auto;">

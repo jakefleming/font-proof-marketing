@@ -6,6 +6,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon.png' | relative_url }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon.png' | relative_url }}">
+	<link rel="shortcut icon" href="{{ '/assets/favicon.png' | relative_url }}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icon.png' | relative_url }}">
+	
 	<link rel="stylesheet" href="{{ '/css/site.css' | relative_url }}">
 	<script src="{{ '/js/site.js' | relative_url }}"></script>
 	<title>Font Proof - Professional Font Testing for macOS</title>
@@ -44,10 +51,33 @@
 	</section>
 
 	<!-- Features Section -->
-	<section class="section bg-secondary" id="features">
-		<div class="container">
-			
+	<section class="section" id="features">
+		<div class="container container-xl">
 			<div class="feature-grid">
+				<div class="card feature-item">
+					<div class="feature-icon">📝</div>
+					<h3 class="feature-title">Multi-Page Editing</h3>
+					<p class="feature-description">
+						Edit and compare multiple pages of text simultaneously.
+					</p>
+				</div>
+				
+				<div class="card feature-item">
+					<div class="feature-icon">🔍</div>
+					<h3 class="feature-title">On Canvas Zoom</h3>
+					<p class="feature-description">
+						Zoom controls let you examine font details up close.
+					</p>
+				</div>
+				
+				<div class="card feature-item">
+					<div class="feature-icon">⚡</div>
+					<h3 class="feature-title">Glyphs 3 syncing</h3>
+					<p class="feature-description">
+						Toggle to allow edits to sync immediately, or make changes without affecting the original proof.
+					</p>
+				</div>
+
 				<div class="card feature-item">
 					<div class="feature-icon">📝</div>
 					<h3 class="feature-title">Multi-Page Editing</h3>
@@ -77,7 +107,7 @@
 
 	<!-- Product Visuals Section -->
 	<section class="section">
-		<div class="container">
+		<div class="container container-xl">
 			<div class="product-showcase">
 				<div class="showcase-content">
 					<h2 class="showcase-title">
@@ -113,9 +143,8 @@
 	<!-- Pricing Section -->
 	<section class="section bg-secondary" id="pricing">
 		<div class="container">
-			<div class="text-center mb-8">
-				<h2 class="mb-4">Choose Your Plan</h2>
-				<p class="text-secondary">Start with a free trial, then choose the plan that fits your needs</p>
+			<div class="mb-8">
+				<h2 class="text-secondary">Start with a free trial, then choose the plan that fits your needs</p>
 			</div>
 			
 			<div class="pricing-grid">
