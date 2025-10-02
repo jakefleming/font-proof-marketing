@@ -7,6 +7,7 @@ A marketing website for Font Proof - Professional font testing for macOS designe
 To run locally:
 
     gem install jekyll
+    bundle install
 
 ... and then finally:
 
