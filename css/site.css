@@ -85,8 +85,8 @@
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
   --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-lg: 1rem;   /* 18px */
+  --font-size-xl: 1rem;    /* 20px */
   --font-size-2xl: 1.5rem;    /* 24px */
   --font-size-3xl: 1.875rem;  /* 30px */
   --font-size-4xl: 2.25rem;   /* 36px */
@@ -243,31 +243,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
-  margin: 0 0 var(--space-4) 0;
+  margin: 0;
 }
 
-h1 {
-  font-size: var(--font-size-3xl);
+h1, .h1 {
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
 }
 
-h2 {
+h2, .h2 {
   font-size: var(--font-size-2xl);
 }
 
-h3 {
+h3, .h3 {
   font-size: var(--font-size-1xl);
 }
 
-h4 {
-  font-size: var(--font-size-1xl);
-}
-
-h5 {
+h4, .h4 {
   font-size: var(--font-size-xl);
 }
 
-h6 {
+h5, .h5 {
+  font-size: var(--font-size-xl);
+}
+
+h6, .h6 {
   font-size: var(--font-size-lg);
 }
 
@@ -352,7 +352,6 @@ a:hover {
   background-color: var(--color-btn-primary-bg-hover);
   border-color: var(--color-btn-primary-bg-hover);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
@@ -364,7 +363,6 @@ a:hover {
 .btn-secondary:hover {
   background-color: var(--color-btn-secondary-bg-hover);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
 }
 
 .btn-large {
@@ -384,13 +382,7 @@ a:hover {
   border: var(--border-width-1) solid var(--color-border-primary);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
 }
 
 .card-header {
@@ -438,7 +430,9 @@ a:hover {
   z-index: 2;
 }
 .hero-text {
-  max-width: 600px;
+  gap: var(--space-6);
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -515,7 +509,6 @@ a:hover {
   gap: var(--space-2);
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
-  margin-top: var(--space-4);
 }
 
 .download-indicator::before {
@@ -598,29 +591,34 @@ a:hover {
 }
 
 .feature-item {
-  text-align: center;
+  text-align: left;
+  padding: 0;
+  overflow: hidden;
 }
 
-.feature-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto var(--space-4);
-  background-color: var(--color-primary-100);
-  border-radius: var(--radius-2xl);
+.feature-visual {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.feature-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.feature-content {
+  padding: var(--space-6);
+  gap: var(--space-1);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-2xl);
-}
-
-.feature-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--space-3);
+  flex-direction: column;
 }
 
 .feature-description {
   color: var(--color-text-secondary);
+  margin: 0;
 }
 
 /* ===== NAVIGATION ===== */
@@ -1209,27 +1207,21 @@ footer {
 /* ===== TYPOGRAPHY CONSTRAINTS FOR OPTIMAL READABILITY ===== */
 
 /* Target paragraphs, descriptions, and text content with optimal line length */
-p:not(.hero-subtitle):not(.pricing-description):not(.footer-tagline),
-.showcase-description,
-.feature-description,
-.hero-subtitle,
-.pricing-description,
-blockquote,
-.text-content {
-  max-width: 75ch;
+h1:not(:empty), .h1:not(:empty) {
+  max-width: 45ch;
 }
+h2:not(:empty), .h2:not(:empty) {
+  max-width: 55ch;
+}
+h3:not(:empty), .h3:not(:empty) {
+  max-width: 60ch;
 
 /* Specific targeting for content that tends to be longer */
-p {
+p:not(:empty) {
   max-width: 75ch;
 }
 
 /* Hero subtitle gets slightly wider for impact */
-.hero-subtitle {
-  max-width: 80ch;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 /* Pricing descriptions stay constrained for scanability */
 .pricing-description {
