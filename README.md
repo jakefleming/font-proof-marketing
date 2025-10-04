@@ -6,12 +6,12 @@ A marketing website for Font Proof - Professional font testing for macOS designe
 
 To run locally:
 
-    gem install jekyll
+    gem install bundler
     bundle install
 
 ... and then finally:
 
-    jekyll serve
+    bundle exec jekyll serve
 
 Then open your browser and hit [http://localhost:5000](http://localhost:5000).
 

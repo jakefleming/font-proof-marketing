@@ -14,6 +14,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icon.png' | relative_url }}">
 	
 	<link rel="stylesheet" href="{{ '/css/site.css' | relative_url }}">
+	<script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
 	<script src="{{ '/js/site.js' | relative_url }}"></script>
 	<title>Font Proof - Professional Font Testing for macOS</title>
 	<meta name="description" content="The best way to proof and test fonts on macOS. Multi-page editing, zoom controls, and professional typography tools.">
@@ -43,9 +44,11 @@
 				</div>
 			</div>
 		</div>
-		{% include product-visual.html 
-		   image="/assets/product-visuals/overview.png"
-		   alt="Font Proof app interface showing multiple font comparisons"
+		{% include dual-hero-visual.html 
+		   left_image="/assets/product-visuals/overview.png"
+		   right_image="/assets/product-visuals/glyphs-edit-character.png"
+		   alt_left="Font Proof app interface showing multiple font comparisons"
+		   alt_right="Glyphs character editing interface"
 		   background="1"
 		   theme="light" %}
 	</section>

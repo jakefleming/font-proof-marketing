@@ -1,0 +1,32 @@
+{% comment %}
+Dual hero visual component with two side-by-side screenshots, each cropped to show half
+Parameters:
+- left_image: path to the left screenshot (required)
+- right_image: path to the right screenshot (required)
+- background: background image number (1, 2, or 3) (required)
+- alt_left: alt text for the left screenshot (required)
+- alt_right: alt text for the right screenshot (required)
+- theme: "light" or "dark" for background theme (optional, defaults to "light")
+{% endcomment %}
+
+{% assign theme = include.theme | default: "light" %}
+{% assign bg_image = "/assets/landscapes/" | append: theme | append: "-" | append: include.background | append: ".jpg" | relative_url %}
+
+<div class="dual-hero-visual-container">
+  <div class="dual-hero-background" style="background-image: url('{{ bg_image }}');"></div>
+  <div class="dual-hero-visual">
+    <div class="dual-hero-left">
+      <img src="{{ include.left_image | relative_url }}" 
+           alt="{{ include.alt_left }}" 
+           class="dual-hero-screenshot dual-hero-screenshot-left">
+    </div>
+    <div class="dual-hero-right">
+      <img src="{{ include.right_image | relative_url }}" 
+           alt="{{ include.alt_right }}" 
+           class="dual-hero-screenshot dual-hero-screenshot-right">
+      <div class="glyph-editor-overlay">
+        <canvas id="glyphEditorCanvas" width="600" height="600"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

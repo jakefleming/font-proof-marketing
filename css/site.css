@@ -502,6 +502,79 @@ a:hover {
   height: auto;
 }
 
+/* Dual Hero Visual - Two side-by-side cropped images */
+.dual-hero-visual-container {
+  width: 100%;
+  max-width: var(--width-container-2xl);
+  margin: 0 auto;
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  padding: 0px;
+}
+
+.dual-hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.dual-hero-visual {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-12);
+  padding-top: var(--space-12);
+}
+
+.dual-hero-left,
+.dual-hero-right {
+  flex: 1;
+  height: 150%;
+  overflow: hidden;
+  border: 1px solid var(--color-border-primary);
+  position: relative;
+}
+.dual-hero-right {
+  border-top-left-radius: var(--radius-lg);
+}
+.dual-hero-left {
+  border-top-right-radius: var(--radius-lg);
+}
+
+.dual-hero-screenshot {
+  width: 200%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Glyph Editor Overlay */
+.glyph-editor-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+#glyphEditorCanvas {
+  display: block;
+  background: transparent;
+  cursor: crosshair;
+}
+
 /* Download indicator */
 .download-indicator {
   display: inline-flex;
@@ -521,6 +594,10 @@ a:hover {
   .hero-visual {
     max-width: 100%;
     padding: 0 var(--space-2);
+  }
+  
+  .dual-hero-visual-container {
+    max-width: 100%;
   }
   
   .hero-text {
@@ -546,13 +623,36 @@ a:hover {
     padding: var(--space-8) var(--space-4) var(--space-6);
   }
   
-  .hero-visual,
-  .showcase-visual-container {
-    padding: 0 var(--space-2);
+  .dual-hero-visual {
+    flex-direction: column;
+    gap: var(--space-2);
   }
   
-  .showcase-visual-container .showcase-visual {
-    padding: var(--space-4);
+  .dual-hero-left,
+  .dual-hero-right {
+    height: 200px;
+  }
+  
+  .glyph-editor-overlay {
+    position: static;
+    transform: none;
+    margin-top: var(--space-2);
+    padding: var(--space-2);
+    max-width: 100%;
+  }
+  
+  #glyphEditorCanvas {
+    width: 280px;
+    height: 200px;
+  }
+  
+  .glyph-editor-controls {
+    min-width: auto;
+  }
+  
+  .control-group:has(button) {
+    flex-direction: column;
+    gap: var(--space-1);
   }
   
   .hero-title {
@@ -601,6 +701,7 @@ a:hover {
   margin: 0;
   overflow: hidden;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background-color: var(--color-bg-secondary);
 }
 
 .feature-image {
