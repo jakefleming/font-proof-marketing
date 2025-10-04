@@ -14,13 +14,15 @@ Parameters:
 
 <div class="dual-hero-visual-container">
   <div class="dual-hero-background" style="background-image: url('{{ bg_image }}');"></div>
-  <div class="dual-hero-visual">
-    <div class="dual-hero-left">
+    <div class="dual-hero-visual dual-hero-left draggable-container" draggable="true">
       <img src="{{ include.left_image | relative_url }}" 
            alt="{{ include.alt_left }}" 
            class="dual-hero-screenshot dual-hero-screenshot-left">
+      <div class="glyph-preview-overlay">
+        <canvas id="glyphPreviewCanvas" width="600" height="600"></canvas>
+      </div>
     </div>
-    <div class="dual-hero-right">
+    <div class="dual-hero-visual dual-hero-right draggable-container" draggable="true">
       <img src="{{ include.right_image | relative_url }}" 
            alt="{{ include.alt_right }}" 
            class="dual-hero-screenshot dual-hero-screenshot-right">
@@ -28,5 +30,4 @@ Parameters:
         <canvas id="glyphEditorCanvas" width="600" height="600"></canvas>
       </div>
     </div>
-  </div>
 </div>

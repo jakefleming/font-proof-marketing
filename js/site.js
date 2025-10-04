@@ -43,10 +43,22 @@ class GlyphBezierEditor {
     this.canvas.style.width = this.canvasRect.width + 'px';
     this.canvas.style.height = this.canvasRect.height + 'px';
 
+    // Set up preview canvas
+    this.previewCanvas = document.getElementById('glyphPreviewCanvas');
+    if (this.previewCanvas) {
+      this.previewCtx = this.previewCanvas.getContext('2d');
+      const previewRect = this.previewCanvas.getBoundingClientRect();
+      this.previewCanvas.width = previewRect.width * dpr;
+      this.previewCanvas.height = previewRect.height * dpr;
+      this.previewCtx.scale(dpr, dpr);
+      this.previewCanvas.style.width = previewRect.width + 'px';
+      this.previewCanvas.style.height = previewRect.height + 'px';
+    }
+
     // Calculate initial transform
     this.offsetX = this.canvasRect.width / 2;
     this.offsetY = this.canvasRect.height / 2;
-    this.scale = this.glyphSize / 1000; // OpenType.js uses 1000 units per em
+    // We'll calculate proper scale after loading the glyph
 
     // Load the font
     try {
@@ -62,6 +74,9 @@ class GlyphBezierEditor {
       this.glyph = this.font.charToGlyph('&');
       this.originalPath = this.glyph.path;
       this.parseGlyphPath();
+      
+      // Calculate proper scale to fit glyph to canvas
+      this.calculateOptimalScale();
       
       this.setupControls();
       this.setupEventListeners();
@@ -103,6 +118,33 @@ class GlyphBezierEditor {
       
       this.editableCommands.push(editableCmd);
     }
+  }
+
+  calculateOptimalScale() {
+    // Get the glyph's bounding box
+    const bbox = this.glyph.getBoundingBox();
+    
+    // Calculate the glyph dimensions
+    const glyphWidth = bbox.x2 - bbox.x1;
+    const glyphHeight = bbox.y2 - bbox.y1;
+    
+    // Add some padding (80% of canvas size)
+    const canvasWidth = this.canvasRect.width * 0.8;
+    const canvasHeight = this.canvasRect.height * 0.8;
+    
+    // Calculate scale to fit both width and height
+    const scaleX = canvasWidth / glyphWidth;
+    const scaleY = canvasHeight / glyphHeight;
+    
+    // Use the smaller scale to ensure the glyph fits completely
+    this.scale = Math.min(scaleX, scaleY);
+    
+    // Center the glyph by adjusting offset based on bounding box
+    const glyphCenterX = (bbox.x1 + bbox.x2) / 2;
+    const glyphCenterY = (bbox.y1 + bbox.y2) / 2;
+    
+    this.offsetX = this.canvasRect.width / 2 - (glyphCenterX * this.scale);
+    this.offsetY = this.canvasRect.height / 2 + (glyphCenterY * this.scale); // + because Y is flipped
   }
 
   setupControls() {
@@ -274,6 +316,43 @@ class GlyphBezierEditor {
     if (this.showControlPoints) {
       this.drawControlPoints();
     }
+    
+    // Update preview canvas
+    this.renderPreview();
+  }
+
+  renderPreview() {
+    if (!this.previewCanvas || !this.previewCtx) return;
+    
+    const ctx = this.previewCtx;
+    const rect = this.previewCanvas.getBoundingClientRect();
+    
+    // Clear preview canvas
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    
+    // Calculate optimal scale for preview canvas using the same method as main canvas
+    if (this.glyph) {
+      // Get the glyph's bounding box
+      const bbox = this.glyph.getBoundingBox();
+      
+      // Calculate the glyph dimensions
+      const glyphWidth = bbox.x2 - bbox.x1;
+      const glyphHeight = bbox.y2 - bbox.y1;
+      
+      // Add some padding (80% of canvas size)
+      const canvasWidth = rect.width * 0.8;
+      const canvasHeight = rect.height * 0.8;
+      
+      // Calculate scale to fit both width and height
+      const scaleX = canvasWidth / glyphWidth;
+      const scaleY = canvasHeight / glyphHeight;
+      
+      // Use the smaller scale to ensure the glyph fits completely
+      const previewScale = Math.min(scaleX, scaleY);
+      
+      // Draw the glyph centered in the preview canvas
+      this.drawGlyphOnCanvas(ctx, rect.width / 2, rect.height / 2, previewScale);
+    }
   }
 
   drawGrid() {
@@ -303,11 +382,13 @@ class GlyphBezierEditor {
   }
 
   drawGlyph() {
-    const ctx = this.ctx;
-    
+    this.drawGlyphOnCanvas(this.ctx, this.offsetX, this.offsetY, this.scale);
+  }
+
+  drawGlyphOnCanvas(ctx, offsetX, offsetY, scale) {
     ctx.save();
-    ctx.translate(this.offsetX, this.offsetY);
-    ctx.scale(this.scale, -this.scale); // Flip Y axis
+    ctx.translate(offsetX, offsetY);
+    ctx.scale(scale, -scale); // Flip Y axis
     
     ctx.beginPath();
     
@@ -425,3 +506,94 @@ class GlyphBezierEditor {
 
 // Initialize the glyph editor
 const glyphEditor = new GlyphBezierEditor();
+
+// Drag and Drop functionality for product screenshots
+class ProductImageDragger {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.setup());
+    } else {
+      this.setup();
+    }
+  }
+
+  setup() {
+    const draggableContainers = document.querySelectorAll('.draggable-container');
+
+    draggableContainers.forEach(container => {
+      this.makeDraggable(container);
+    });
+  }
+
+  makeDraggable(element) {
+    let isDragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    const dragStart = (e) => {
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+      }
+
+      if (e.target === element) {
+        isDragging = true;
+        element.classList.add('dragging');
+      }
+    };
+
+    const dragEnd = (e) => {
+      initialX = currentX;
+      initialY = currentY;
+      isDragging = false;
+      element.classList.remove('dragging');
+    };
+
+    const drag = (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        element.style.transform = `translate(${currentX}px, ${currentY}px)`;
+      }
+    };
+
+    // Mouse events
+    element.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    // Touch events for mobile
+    element.addEventListener('touchstart', dragStart);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', dragEnd);
+
+    // Prevent default drag behavior
+    element.addEventListener('dragstart', (e) => e.preventDefault());
+  }
+}
+
+// Initialize the product image dragger
+const productDragger = new ProductImageDragger();

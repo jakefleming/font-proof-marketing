@@ -523,41 +523,48 @@ a:hover {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 1;
   z-index: 1;
 }
 
 .dual-hero-visual {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  height: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: var(--space-12);
-  padding-top: var(--space-12);
+  height: calc(100% - var(--space-24));
+  width: auto;
+  max-width: 1440px;
+  aspect-ratio: 16/9;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 1px solid var(--color-border-secondary);
+  box-shadow: var(--shadow-lg);
 }
 
-.dual-hero-left,
-.dual-hero-right {
-  flex: 1;
-  height: 150%;
-  overflow: hidden;
-  border: 1px solid var(--color-border-primary);
-  position: relative;
-}
-.dual-hero-right {
-  border-top-left-radius: var(--radius-lg);
-}
 .dual-hero-left {
-  border-top-right-radius: var(--radius-lg);
+  left: 0;
+  transform: translateX(-20%);
+  top: var(--space-6);
+}
+.dual-hero-right {
+  right: 0;
+  transform: translateX(20%);
+  bottom: var(--space-6);
+}
+
+.draggable-container {
+  user-select: none;
+  cursor: grab;
+}
+
+.draggable-container:active {
+  cursor: grabbing;
 }
 
 .dual-hero-screenshot {
-  width: 200%;
+  width: 100%;
   height: auto;
-  object-fit: contain;
-  object-position: center;
+  pointer-events: none;
+  transition: none;
 }
 
 /* Glyph Editor Overlay */
@@ -568,11 +575,23 @@ a:hover {
   transform: translate(-50%, -50%);
   z-index: 10;
 }
-
 #glyphEditorCanvas {
-  display: block;
-  background: transparent;
-  cursor: crosshair;
+  width: auto;
+  height: 440px;
+}
+
+/* Glyph Preview Overlay - read-only version for left side */
+.glyph-preview-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none; /* Make it non-interactive */
+}
+
+#glyphPreviewCanvas {
+  width: auto;
 }
 
 /* Download indicator */
@@ -633,7 +652,8 @@ a:hover {
     height: 200px;
   }
   
-  .glyph-editor-overlay {
+  .glyph-editor-overlay,
+  .glyph-preview-overlay {
     position: static;
     transform: none;
     margin-top: var(--space-2);
@@ -641,7 +661,8 @@ a:hover {
     max-width: 100%;
   }
   
-  #glyphEditorCanvas {
+  #glyphEditorCanvas,
+  #glyphPreviewCanvas {
     width: 280px;
     height: 200px;
   }
