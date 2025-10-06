@@ -571,6 +571,16 @@ class ProductImageDragger {
         isDragging = true;
         element.classList.add('dragging');
         
+        // Bring this element to front and send others back
+        const allDraggables = document.querySelectorAll('.draggable-container');
+        allDraggables.forEach(el => {
+          if (el === element) {
+            el.style.zIndex = '3';
+          } else {
+            el.style.zIndex = '2';
+          }
+        });
+        
         if (e.type === "touchstart") {
           startX = e.touches[0].clientX - offsetX;
           startY = e.touches[0].clientY - offsetY;
