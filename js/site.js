@@ -14,7 +14,7 @@ class GlyphBezierEditor {
     this.editableCommands = [];
     this.isDragging = false;
     this.dragPoint = null;
-    this.controlPointRadius = 8; // Larger control points
+    this.controlPointRadius = 4; // Control points
     this.canvasRect = null;
     this.init();
   }
@@ -260,8 +260,30 @@ class GlyphBezierEditor {
       const cmd = this.editableCommands[this.dragPoint.cmdIndex];
       
       if (this.dragPoint.pointType === 'main') {
+        // Calculate the delta (how much the point moved)
+        const deltaX = worldPos.x - cmd.x;
+        const deltaY = worldPos.y - cmd.y;
+        
+        // Move the main point
         cmd.x = worldPos.x;
         cmd.y = worldPos.y;
+        
+        // Move only the control points that belong to THIS command
+        // cp2 is the outgoing control point (goes with this point)
+        if (cmd.x2 !== undefined) {
+          cmd.x2 += deltaX;
+          cmd.y2 += deltaY;
+        }
+        
+        // cp1 is the incoming control point - find which command has a cp1 that connects TO this point
+        // That would be the NEXT command's cp1
+        if (this.dragPoint.cmdIndex < this.editableCommands.length - 1) {
+          const nextCmd = this.editableCommands[this.dragPoint.cmdIndex + 1];
+          if (nextCmd.x1 !== undefined) {
+            nextCmd.x1 += deltaX;
+            nextCmd.y1 += deltaY;
+          }
+        }
       } else if (this.dragPoint.pointType === 'cp1') {
         cmd.x1 = worldPos.x;
         cmd.y1 = worldPos.y;
@@ -340,52 +362,26 @@ class GlyphBezierEditor {
       const glyphHeight = bbox.y2 - bbox.y1;
       
       // Add some padding (80% of canvas size)
-      const canvasWidth = rect.width * 0.8;
-      const canvasHeight = rect.height * 0.8;
+      const canvasWidth = rect.width * 0.5;
+      const canvasHeight = rect.height * 0.5;
       
       // Calculate scale to fit both width and height
       const scaleX = canvasWidth / glyphWidth;
       const scaleY = canvasHeight / glyphHeight;
       
-      // Use the smaller scale to ensure the glyph fits completely
-      const previewScale = Math.min(scaleX, scaleY);
+      // Use the smaller scale to ensure the glyph fits completely, then halve it
+      const previewScale = Math.min(scaleX, scaleY) * 0.3;
       
-      // Draw the glyph centered in the preview canvas
-      this.drawGlyphOnCanvas(ctx, rect.width / 2, rect.height / 2, previewScale);
+      // Draw the glyph centered in the preview canvas (all black, no stroke)
+      this.drawGlyphOnCanvas(ctx, rect.width / 2, rect.height / 2, previewScale, true);
     }
-  }
-
-  drawGrid() {
-    const ctx = this.ctx;
-    const rect = this.canvasRect;
-    
-    ctx.strokeStyle = '#f0f0f0';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([2, 2]);
-    
-    const gridSize = 20;
-    for (let x = 0; x < rect.width; x += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, rect.height);
-      ctx.stroke();
-    }
-    
-    for (let y = 0; y < rect.height; y += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(rect.width, y);
-      ctx.stroke();
-    }
-    
-    ctx.setLineDash([]);
   }
 
   drawGlyph() {
     this.drawGlyphOnCanvas(this.ctx, this.offsetX, this.offsetY, this.scale);
   }
 
-  drawGlyphOnCanvas(ctx, offsetX, offsetY, scale) {
+  drawGlyphOnCanvas(ctx, offsetX, offsetY, scale, isPreview = false) {
     ctx.save();
     ctx.translate(offsetX, offsetY);
     ctx.scale(scale, -scale); // Flip Y axis
@@ -416,9 +412,18 @@ class GlyphBezierEditor {
     
     ctx.restore();
     
-    // Style the glyph - black fill
-    ctx.fillStyle = '#000000';
-    ctx.fill();
+    if (isPreview) {
+      // Preview: all black, no stroke
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+    } else {
+      // Editor: Glyphs App style with fill and stroke
+      ctx.fillStyle = '#D8E4CB';
+      ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#003E00';
+      ctx.stroke();
+    }
   }
 
   drawControlPoints() {
@@ -430,44 +435,62 @@ class GlyphBezierEditor {
       // Draw main point
       if (cmd.x !== undefined && cmd.y !== undefined) {
         const point = this.transformPoint(cmd.x, cmd.y);
-        this.drawControlPoint(point.x, point.y, '#dc2626', true);
+        this.drawControlPoint(point.x, point.y, 'transparent', true);
+        // add green stroke
+        ctx.strokeStyle = '#16A34A';
+        ctx.stroke();
       }
       
       // Draw control points and lines
-      if (cmd.x1 !== undefined && cmd.y1 !== undefined) {
+      // cp1 connects to the PREVIOUS point (it controls the curve coming into this point)
+      if (cmd.x1 !== undefined && cmd.y1 !== undefined && i > 0) {
         const cp1 = this.transformPoint(cmd.x1, cmd.y1);
-        const main = this.transformPoint(cmd.x, cmd.y);
+        // Find the previous point with coordinates
+        let prevCmd = null;
+        for (let j = i - 1; j >= 0; j--) {
+          if (this.editableCommands[j].x !== undefined) {
+            prevCmd = this.editableCommands[j];
+            break;
+          }
+        }
         
-        // Draw control line
-        ctx.strokeStyle = '#94a3b8';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([3, 3]);
-        ctx.beginPath();
-        ctx.moveTo(cp1.x, cp1.y);
-        ctx.lineTo(main.x, main.y);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        
-        // Draw control point
-        this.drawControlPoint(cp1.x, cp1.y, '#16a34a', false);
+        if (prevCmd) {
+          const prevMain = this.transformPoint(prevCmd.x, prevCmd.y);
+          
+          // Draw control line from previous point to cp1
+          ctx.strokeStyle = '#BAB5AE';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(prevMain.x, prevMain.y);
+          ctx.lineTo(cp1.x, cp1.y);
+          ctx.stroke();
+          
+          // Draw control point
+          this.drawControlPoint(cp1.x, cp1.y, '#ffffff', false);
+          // Add stroke
+          ctx.strokeStyle = '#357335';
+          ctx.stroke();
+        }
       }
-      
+
+      // cp2 connects to the CURRENT point (it controls the curve going out from previous point)
       if (cmd.x2 !== undefined && cmd.y2 !== undefined) {
         const cp2 = this.transformPoint(cmd.x2, cmd.y2);
         const main = this.transformPoint(cmd.x, cmd.y);
         
-        // Draw control line
-        ctx.strokeStyle = '#94a3b8';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([3, 3]);
+        // Draw control line from cp2 to current point
+        ctx.strokeStyle = '#BAB5AE';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(cp2.x, cp2.y);
         ctx.lineTo(main.x, main.y);
         ctx.stroke();
-        ctx.setLineDash([]);
         
         // Draw control point
-        this.drawControlPoint(cp2.x, cp2.y, '#ea580c', false);
+        this.drawControlPoint(cp2.x, cp2.y, '#ffffff', false);
+        // Add stroke
+        ctx.strokeStyle = '#357335';
+        ctx.stroke();
       }
     }
   }
@@ -477,13 +500,13 @@ class GlyphBezierEditor {
     
     ctx.fillStyle = color;
     ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     
     ctx.beginPath();
     if (isMainPoint) {
-      // Square for main points
+      // Green circles for main points
       const size = this.controlPointRadius;
-      ctx.rect(x - size, y - size, size * 2, size * 2);
+      ctx.arc(x, y, size, 0, Math.PI * 2);
     } else {
       // Circle for control points
       ctx.arc(x, y, this.controlPointRadius, 0, Math.PI * 2);
@@ -532,31 +555,33 @@ class ProductImageDragger {
 
   makeDraggable(element) {
     let isDragging = false;
-    let currentX = 0;
-    let currentY = 0;
-    let initialX = 0;
-    let initialY = 0;
-    let xOffset = 0;
-    let yOffset = 0;
+    let startX = 0;
+    let startY = 0;
+    let offsetX = 0;
+    let offsetY = 0;
+    
+    // Get the initial transform if it exists
+    const style = window.getComputedStyle(element);
+    const matrix = new DOMMatrix(style.transform);
+    offsetX = matrix.m41;
+    offsetY = matrix.m42;
 
     const dragStart = (e) => {
-      if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - xOffset;
-        initialY = e.touches[0].clientY - yOffset;
-      } else {
-        initialX = e.clientX - xOffset;
-        initialY = e.clientY - yOffset;
-      }
-
       if (e.target === element) {
         isDragging = true;
         element.classList.add('dragging');
+        
+        if (e.type === "touchstart") {
+          startX = e.touches[0].clientX - offsetX;
+          startY = e.touches[0].clientY - offsetY;
+        } else {
+          startX = e.clientX - offsetX;
+          startY = e.clientY - offsetY;
+        }
       }
     };
 
     const dragEnd = (e) => {
-      initialX = currentX;
-      initialY = currentY;
       isDragging = false;
       element.classList.remove('dragging');
     };
@@ -566,17 +591,14 @@ class ProductImageDragger {
         e.preventDefault();
         
         if (e.type === "touchmove") {
-          currentX = e.touches[0].clientX - initialX;
-          currentY = e.touches[0].clientY - initialY;
+          offsetX = e.touches[0].clientX - startX;
+          offsetY = e.touches[0].clientY - startY;
         } else {
-          currentX = e.clientX - initialX;
-          currentY = e.clientY - initialY;
+          offsetX = e.clientX - startX;
+          offsetY = e.clientY - startY;
         }
 
-        xOffset = currentX;
-        yOffset = currentY;
-
-        element.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
       }
     };
 
