@@ -65,7 +65,7 @@ class GlyphBezierEditor {
       // Handle both local development and GitHub Pages
       // When running locally with baseurl, Jekyll serves at /font-proof-marketing/
       const basePath = window.location.pathname.includes('/font-proof-marketing') ? '/font-proof-marketing' : '';
-      const fontPath = `${basePath}/assets/fonts/VCHenrietta-Medium.woff`;
+      const fontPath = `${basePath}/assets/fonts/VCNudgeVF.woff2`;
       console.log('Loading font from:', fontPath);
       this.font = await opentype.load(fontPath);
       console.log('Font loaded successfully:', this.font);

@@ -69,7 +69,7 @@
   
   /* Font Families */
   --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-display: "VC Nudge", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   
@@ -215,6 +215,15 @@
 
 /* ===== BASE STYLES ===== */
 
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('../assets/fonts/VCNudgeVF.woff2') format('woff2-variations');
+  font-optical-sizing: auto;
+  font-weight: 1 999;
+  font-stretch: 200 400;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -226,7 +235,7 @@ html {
 }
 
 body {
-  font-family: var(--font-family-body);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
@@ -234,13 +243,14 @@ body {
   background-color: var(--color-bg-primary);
   margin: 0;
   padding: 0;
+  font-variation-settings: 'opsz' 16, 'wdth' 400;
 }
 
 /* ===== TYPOGRAPHY UTILITIES ===== */
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-display);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
   margin: 0;
@@ -248,7 +258,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1, .h1 {
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
 }
 
 h2, .h2 {
@@ -328,7 +338,6 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: var(--space-2) var(--space-4);
-  font-family: var(--font-family-system);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
