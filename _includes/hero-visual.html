@@ -12,20 +12,20 @@ Parameters:
 {% assign theme = include.theme | default: "light" %}
 {% assign bg_image = "/assets/landscapes/" | append: theme | append: "-" | append: include.background | append: ".jpg" | relative_url %}
 
-<div class="dual-hero-visual-container">
-  <div class="dual-hero-background" style="background-image: url('{{ bg_image }}');"></div>
-    <div class="dual-hero-visual dual-hero-left draggable-container" draggable="true">
+<div class="hero-visual-container">
+  <div class="hero-background" style="background-image: url('{{ bg_image }}');"></div>
+    <div class="hero-visual hero-left draggable-container" draggable="true">
       <img src="{{ include.left_image | relative_url }}" 
            alt="{{ include.alt_left }}" 
-           class="dual-hero-screenshot dual-hero-screenshot-left">
+           class="hero-screenshot hero-screenshot-left">
       <div class="glyph-preview-overlay">
         <canvas id="glyphPreviewCanvas" width="600" height="600"></canvas>
       </div>
     </div>
-    <div class="dual-hero-visual dual-hero-right draggable-container" draggable="true">
+    <div class="hero-visual hero-right draggable-container" draggable="true">
       <img src="{{ include.right_image | relative_url }}" 
            alt="{{ include.alt_right }}" 
-           class="dual-hero-screenshot dual-hero-screenshot-right">
+           class="hero-screenshot hero-screenshot-right">
       <div class="glyph-editor-overlay">
         <canvas id="glyphEditorCanvas" width="600" height="600"></canvas>
       </div>

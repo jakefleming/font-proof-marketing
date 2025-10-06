@@ -348,7 +348,7 @@ a:hover {
   white-space: nowrap;
 }
 .btn:hover {
-  color: var(--color-text);
+  color: var(--color-text-inverse);
 }
 
 .btn-primary {
@@ -460,11 +460,16 @@ a:hover {
   line-height: var(--line-height-relaxed);
 }
 
+.hero-visual-container {
+  width: 100%;
+  position: relative;
+  aspect-ratio: 16/9;
+}
+
 .hero-visual {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--space-4);
   position: relative;
 }
 
@@ -476,59 +481,13 @@ a:hover {
   transition: transform var(--transition-slow);
 }
 
-/* Product Visual with Background Container */
-.showcase-visual-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
-  position: relative;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.showcase-background {
+.hero-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-.showcase-visual-container .showcase-visual {
-  position: relative;
-  z-index: 2;
-  padding: var(--space-8);
-}
-
-.showcase-visual-container .showcase-screenshot {
-  width: 100%;
-  height: auto;
-}
-
-/* Dual Hero Visual - Two side-by-side cropped images */
-.dual-hero-visual-container {
-  width: 100%;
-  max-width: var(--width-container-2xl);
-  margin: 0 auto;
-  position: relative;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  aspect-ratio: 16/9;
-  padding: 0px;
-}
-
-.dual-hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  border-radius: var(--radius-2xl);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -536,7 +495,7 @@ a:hover {
   z-index: 1;
 }
 
-.dual-hero-visual {
+.hero-visual {
   position: absolute;
   z-index: 2;
   height: calc(100% - var(--space-24));
@@ -549,12 +508,12 @@ a:hover {
   box-shadow: var(--shadow-lg);
 }
 
-.dual-hero-left {
+.hero-left {
   left: 0;
   transform: translateX(-20%);
   top: var(--space-6);
 }
-.dual-hero-right {
+.hero-right {
   right: 0;
   transform: translateX(20%);
   bottom: var(--space-6);
@@ -569,7 +528,7 @@ a:hover {
   cursor: grabbing;
 }
 
-.dual-hero-screenshot {
+.hero-screenshot {
   width: 100%;
   height: auto;
   pointer-events: none;
@@ -619,14 +578,6 @@ a:hover {
 
 /* Responsive hero */
 @media (max-width: 1024px) {
-  .hero-visual {
-    max-width: 100%;
-    padding: 0 var(--space-2);
-  }
-  
-  .dual-hero-visual-container {
-    max-width: 100%;
-  }
   
   .hero-text {
     max-width: 100%;
@@ -651,13 +602,13 @@ a:hover {
     padding: var(--space-8) var(--space-4) var(--space-6);
   }
   
-  .dual-hero-visual {
+  .hero-visual {
     flex-direction: column;
     gap: var(--space-2);
   }
   
-  .dual-hero-left,
-  .dual-hero-right {
+  .hero-left,
+  .hero-right {
     height: 200px;
   }
   
@@ -1187,8 +1138,8 @@ footer {
   }
   
   .feature-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-12);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
   }
   
   nav {
